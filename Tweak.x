@@ -32,11 +32,26 @@ static void settingsChanged(CFNotificationCenterRef center, void *observer, CFSt
 
 %hook BLTBulletinDistributor
 
-- (void)_handleDidPlayLightsAndSirens:(BOOL)didPlayLightsAndSirens forBulletin:(id)bulletin inPhoneSection:(id)phoneSecton transmissionDate:(id)transmissionDate receptionDate:(id)receptionDate fromGizmo:(BOOL)fromGizmo finalReply:(BOOL)finalReply replyToken:(id)replyToken {
+- (void)handleDidPlayLightsAndSirens:(bool)arg1 forBulletin:(id)arg2 inPhoneSection:(id)arg3 transmissionDate:(id)arg4 receptionDate:(id)arg5 replyToken:(id)arg6 {
 	if (enabled) {
-		didPlayLightsAndSirens = NO;
+		arg1 = NO;
 	}
 	%orig;
+}
+
+- (void)_handleDidPlayLightsAndSirens:(bool)arg1 forBulletin:(id)arg2 inPhoneSection:(id)arg3 transmissionDate:(id)arg4 receptionDate:(id)arg5 fromGizmo:(bool)arg6 finalReply:(bool)arg7 replyToken:(id)arg8 {
+	if (enabled) {
+		arg1 = NO;
+	}
+	%orig;
+}
+
+- (bool)_notifyGizmoOfBulletin:(id)arg1 forFeed:(unsigned long long)arg2 updateType:(unsigned long long)arg3 playLightsAndSirens:(bool)arg4 shouldSendReplyIfNeeded:(bool)arg5 attachment:(id)arg6 attachmentType:(long long)arg7 replyToken:(id)arg8 {
+	if (enabled) {
+		arg4 = YES;
+		arg5 = YES;
+	}
+	return %orig;
 }
 
 %end
@@ -60,6 +75,6 @@ static void settingsChanged(CFNotificationCenterRef center, void *observer, CFSt
                                         CFSTR("dev.ayden.ios.tweak.wintermode.changed"),
                                         NULL,
                                         CFNotificationSuspensionBehaviorDeliverImmediately);
-		loadSettings();											
+		loadSettings();						
    }
 }

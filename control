@@ -1,8 +1,8 @@
 Package: com.iosrouter.iosroutermode
 Name: IosrouterMode
-Version: 1.0.1
+Version: 1.0.2
 Architecture: iphoneos-arm
-Description: An awesome MobileSubstrate tweak!
+Description: WinterMode, iosrouter style
 Maintainer: ios
 Author: iosrouter
 Section: Tweaks
