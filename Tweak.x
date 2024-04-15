@@ -9,6 +9,9 @@ static BOOL enabled;
 
 static void loadSettings() {
 	//check if file exists
+	NSLog(@"iosrouter Loading settings");
+	//print if file exists
+	NSLog(@"iosrouter File exists: %d", [[NSFileManager defaultManager] fileExistsAtPath:prefsPath]);
 	if (![[NSFileManager defaultManager] fileExistsAtPath:prefsPath]) {
 		NSMutableDictionary *dict = [NSMutableDictionary dictionary];
 		[dict setObject:@YES forKey:@"enabled"];
