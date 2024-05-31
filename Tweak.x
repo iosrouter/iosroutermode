@@ -15,11 +15,7 @@ static void loadSettings() {
 	if (![[NSFileManager defaultManager] fileExistsAtPath:prefsPath]) {
 		NSMutableDictionary *dict = [NSMutableDictionary dictionary];
 		[dict setObject:@YES forKey:@"enabled"];
-		@try {
-			[dict writeToFile:prefsPath atomically:YES];
-		} @catch (NSException *exception) {
-			NSLog(@"iosrouter Error writing file: %@", exception);
-		}
+		[dict writeToFile:prefsPath atomically:YES];
 	}
 	NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:prefsPath];
 	enabled = [[dict objectForKey:@"enabled"] boolValue];
@@ -39,27 +35,24 @@ static void settingsChanged(CFNotificationCenterRef center, void *observer, CFSt
 
 %hook BLTBulletinDistributor
 
-- (void)handleDidPlayLightsAndSirens:(bool)arg1 forBulletin:(id)arg2 inPhoneSection:(id)arg3 transmissionDate:(id)arg4 receptionDate:(id)arg5 replyToken:(id)arg6 {
-	if (enabled) {
-		arg1 = NO;
-	}
-	%orig;
-}
+  //  ------- Send Notifications to watch even when iPhone is unlocked & in use -------
+  //Older versions
+  - (void)_notifyGizmoOfBulletin:(id)arg1 forFeed:(NSUInteger)arg2 updateType:(NSUInteger)arg3 playLightsAndSirens:(BOOL)arg4 shouldSendReplyIfNeeded:(BOOL)arg5
+  {
+    if (enabled) { %orig(arg1, arg2, arg3, YES, arg5); }
+	else { %orig; }
+  }
 
-- (void)_handleDidPlayLightsAndSirens:(bool)arg1 forBulletin:(id)arg2 inPhoneSection:(id)arg3 transmissionDate:(id)arg4 receptionDate:(id)arg5 fromGizmo:(bool)arg6 finalReply:(bool)arg7 replyToken:(id)arg8 {
-	if (enabled) {
-		arg1 = NO;
-	}
-	%orig;
-}
+  -(BOOL)_notifyGizmoOfBulletin:(id)arg1 forFeed:(unsigned long long)arg2 updateType:(unsigned long long)arg3 playLightsAndSirens:(BOOL)arg4 shouldSendReplyIfNeeded:(BOOL)arg5 attachment:(id)arg6 attachmentType:(long long)arg7 replyToken:(id)arg8
+  { if (enabled) { arg4 = YES;}
+    return %orig;
+  }
 
-- (bool)_notifyGizmoOfBulletin:(id)arg1 forFeed:(unsigned long long)arg2 updateType:(unsigned long long)arg3 playLightsAndSirens:(bool)arg4 shouldSendReplyIfNeeded:(bool)arg5 attachment:(id)arg6 attachmentType:(long long)arg7 replyToken:(id)arg8 {
-	if (enabled) {
-		arg4 = YES;
-		arg5 = YES;
-	}
-	return %orig;
-}
+  //  ------- Send Notifications to iPhone even when they have been delivered to watch & iPhone is Locked -------
+  - (void)_handleDidPlayLightsAndSirens:(BOOL)didPlayLightsAndSirens forBulletin:(id)bulletin inPhoneSection:(id)phoneSecton transmissionDate:(id)transmissionDate receptionDate:(id)receptionDate fromGizmo:(BOOL)fromGizmo finalReply:(BOOL)finalReply replyToken:(id)replyToken
+  { if (enabled) { didPlayLightsAndSirens = NO; }
+	%orig;
+  }
 
 %end
 
