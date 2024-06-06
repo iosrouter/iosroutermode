@@ -3,7 +3,7 @@
 #import <UIKit/UIKit.h>
 #import <rootless.h>
 
-static BOOL enabled;
+BOOL enabled;
 
 #define prefsPath ROOT_PATH_NS(@"/var/mobile/Library/Preferences/dev.ayden.ios.tweak.wintermode.plist")
 
