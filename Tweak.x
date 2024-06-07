@@ -33,16 +33,15 @@ static void loadSettings() {
         else {
             NSLog(@"iosrouter: Disabling tweak");
             NSMutableDictionary *prefsDict = [NSMutableDictionary dictionaryWithContentsOfFile:prefsPath];
-            NSTask *task = [[NSTask alloc] init];
-            [task setLaunchPath:@"/usr/bin/killall"];
-            [task setArguments:@[@"-9", @"bulletindistributord"]];
-            [task launch];
-            [task waitUntilExit];
             [prefsDict setObject:@NO forKey:@"Enabled"];
             [prefsDict writeToFile:prefsPath atomically:YES];
         }
     }
-    
+    NSTask *task = [[NSTask alloc] init];
+    [task setLaunchPath:@"/usr/bin/killall"];
+    [task setArguments:@[@"-9", @"bulletindistributord"]];
+    [task launch];
+    [task waitUntilExit];
 
 }
 
