@@ -25,6 +25,19 @@ static void loadSettings() {
         CFRelease(keyList);
     }
     enabled = [settings[@"Enabled"] boolValue];
+    NSString *bundle = [[NSBundle mainBundle] bundleIdentifier];
+    if (enabled && [bundle isEqualToString:@"com.apple.Bridge"]) {
+        //open prefsPath, read file, set enabled to true
+        NSMutableDictionary *dict = [[NSDictionary dictionaryWithContentsOfFile:prefsPath] mutableCopy];
+        dict[@"Enabled"] = @YES;
+        [dict writeToFile:prefsPath atomically:YES];
+
+    }
+    else {
+        NSMutableDictionary *dict = [[NSDictionary dictionaryWithContentsOfFile:prefsPath] mutableCopy];
+        dict[@"Enabled"] = @NO;
+        [dict writeToFile:prefsPath atomically:YES];
+    }
 
 }
 
