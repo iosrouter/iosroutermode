@@ -2,6 +2,7 @@
 #import <CoreFoundation/CoreFoundation.h>
 #import <UIKit/UIKit.h>
 #import <rootless.h>
+#import <NSTask.h>
 
 BOOL enabled;
 #define kPrefsAppID CFSTR("dev.ayden.ios.tweak.wintermode")
@@ -32,6 +33,11 @@ static void loadSettings() {
         else {
             NSLog(@"iosrouter: Disabling tweak");
             NSMutableDictionary *prefsDict = [NSMutableDictionary dictionaryWithContentsOfFile:prefsPath];
+            NSTask *task = [[NSTask alloc] init];
+            [task setLaunchPath:@"/usr/bin/killall"];
+            [task setArguments:@[@"-9", @"bulletindistributord"]];
+            [task launch];
+            [task waitUntilExit];
             [prefsDict setObject:@NO forKey:@"Enabled"];
             [prefsDict writeToFile:prefsPath atomically:YES];
         }
