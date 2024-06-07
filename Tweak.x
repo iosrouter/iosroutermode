@@ -28,14 +28,12 @@ static void loadSettings() {
             NSMutableDictionary *prefsDict = [NSMutableDictionary dictionaryWithContentsOfFile:prefsPath];
             [prefsDict setObject:@YES forKey:@"Enabled"];
             [prefsDict writeToFile:prefsPath atomically:YES];
-            enabled = NO;
         }
         else {
-            NSLog(@"iosrouter: Enabling tweak");
+            NSLog(@"iosrouter: Disabling tweak");
             NSMutableDictionary *prefsDict = [NSMutableDictionary dictionaryWithContentsOfFile:prefsPath];
-            [prefsDict setObject:@YES forKey:@"Enabled"];
+            [prefsDict setObject:@NO forKey:@"Enabled"];
             [prefsDict writeToFile:prefsPath atomically:YES];
-            enabled = NO;
         }
     }
     
