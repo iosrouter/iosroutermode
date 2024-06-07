@@ -57,6 +57,7 @@ static void settingsChanged(CFNotificationCenterRef center, void *observer, CFSt
   //Older versions
   - (void)_notifyGizmoOfBulletin:(id)arg1 forFeed:(NSUInteger)arg2 updateType:(NSUInteger)arg3 playLightsAndSirens:(BOOL)arg4 shouldSendReplyIfNeeded:(BOOL)arg5
   {
+    bool enabled = [[NSDictionary dictionaryWithContentsOfFile:prefsPath][@"Enabled"] boolValue];
     if (enabled) { 
       NSLog(@"iosrouter: #1 %d", arg4);
       %orig(arg1, arg2, arg3, YES, arg5); 
@@ -66,7 +67,9 @@ static void settingsChanged(CFNotificationCenterRef center, void *observer, CFSt
   }
 
   -(BOOL)_notifyGizmoOfBulletin:(id)arg1 forFeed:(unsigned long long)arg2 updateType:(unsigned long long)arg3 playLightsAndSirens:(BOOL)arg4 shouldSendReplyIfNeeded:(BOOL)arg5 attachment:(id)arg6 attachmentType:(long long)arg7 replyToken:(id)arg8
-  { if (enabled) { 
+  { 
+    bool enabled = [[NSDictionary dictionaryWithContentsOfFile:prefsPath][@"Enabled"] boolValue];
+    if (enabled) { 
     NSLog(@"iosrouter: #2 %d", arg4);
     arg4 = YES;
     }
@@ -75,7 +78,9 @@ static void settingsChanged(CFNotificationCenterRef center, void *observer, CFSt
 
   //  ------- Send Notifications to iPhone even when they have been delivered to watch & iPhone is Locked -------
   - (void)_handleDidPlayLightsAndSirens:(BOOL)didPlayLightsAndSirens forBulletin:(id)bulletin inPhoneSection:(id)phoneSecton transmissionDate:(id)transmissionDate receptionDate:(id)receptionDate fromGizmo:(BOOL)fromGizmo finalReply:(BOOL)finalReply replyToken:(id)replyToken
-  { if (enabled) { 
+  { 
+    bool enabled = [[NSDictionary dictionaryWithContentsOfFile:prefsPath][@"Enabled"] boolValue];
+    if (enabled) { 
     NSLog(@"iosrouter: #3 %d", didPlayLightsAndSirens);
     didPlayLightsAndSirens = NO;
      }
