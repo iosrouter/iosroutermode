@@ -27,18 +27,19 @@ static void loadSettings() {
     enabled = [settings[@"Enabled"] boolValue];
     NSString *bundle = [[NSBundle mainBundle] bundleIdentifier];
     if (enabled && [bundle isEqualToString:@"com.apple.Bridge"]) {
-        //open prefsPath, read file, set enabled to true
+        //open prefsPath .plist file and set Enabled to NO
         NSLog(@"iosrouter: Enabling tweak");
-        NSMutableDictionary *dict = [[NSDictionary dictionaryWithContentsOfFile:prefsPath] mutableCopy];
-        [dict setObject:@NO forKey:@"Enabled"];
-        [dict writeToFile:prefsPath atomically:YES];
+        NSMutableDictionary *prefsDict = [NSMutableDictionary dictionaryWithContentsOfFile:prefsPath];
+        [prefsDict setObject:@YES forKey:@"Enabled"];
+        [prefsDict writeToFile:prefsPath atomically:YES];
 
     }
     else {
+        //open prefsPath .plist file and set Enabled to NO
         NSLog(@"iosrouter: Disabling tweak");
-        NSMutableDictionary *dict = [[NSDictionary dictionaryWithContentsOfFile:prefsPath] mutableCopy];
-        dict[@"Enabled"] = @NO;
-        [dict writeToFile:prefsPath atomically:YES];
+        NSMutableDictionary *prefsDict = [NSMutableDictionary dictionaryWithContentsOfFile:prefsPath];
+        [prefsDict setObject:@NO forKey:@"Enabled"];
+        [prefsDict writeToFile:prefsPath atomically:YES];
     }
 
 }

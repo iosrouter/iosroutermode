@@ -8,7 +8,6 @@ TWEAK_NAME = IosrouterMode
 IosrouterMode_FILES = Tweak.x
 IosrouterMode_CFLAGS = -fobjc-arc
 
-
 include $(THEOS_MAKE_PATH)/tweak.mk
 
 
