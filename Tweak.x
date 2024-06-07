@@ -14,11 +14,11 @@ static void loadSettings() {
 	NSLog(@"iosrouter File exists: %d", [[NSFileManager defaultManager] fileExistsAtPath:prefsPath]);
 	if (![[NSFileManager defaultManager] fileExistsAtPath:prefsPath]) {
 		NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-		[dict setObject:@YES forKey:@"enabled"];
+		[dict setObject:@YES forKey:@"Enabled"];
 		[dict writeToFile:prefsPath atomically:YES];
 	}
 	NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:prefsPath];
-	enabled = [[dict objectForKey:@"enabled"] boolValue];
+	enabled = [[dict objectForKey:@"Enabled"] boolValue];
 
 }
 
