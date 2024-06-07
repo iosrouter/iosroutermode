@@ -25,6 +25,8 @@
 			<true/>
 			<key>PostNotification</key>
 			<string>dev.ayden.ios.tweak.wintermode.changed</string>
+			<key>icon</key>
+			<string>icon.png</string>
 		</dict>
 	</array>
 	<key>headerColour</key>
