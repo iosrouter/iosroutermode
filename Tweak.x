@@ -4,7 +4,7 @@
 #import <rootless.h>
 
 BOOL enabled;
-
+#define kPrefsAppID CFSTR("dev.ayden.ios.tweak.wintermode")
 #define prefsPath ROOT_PATH_NS(@"/var/mobile/Library/Preferences/dev.ayden.ios.tweak.wintermode.plist")
 
 static void loadSettings() {
@@ -17,9 +17,14 @@ static void loadSettings() {
 		[dict setObject:@YES forKey:@"Enabled"];
 		[dict writeToFile:prefsPath atomically:YES];
 	}
-	NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:prefsPath];
-	enabled = [[dict objectForKey:@"Enabled"] boolValue];
-  NSLog(@"iosrouter Enabled: %d", enabled);
+	NSDictionary *settings = nil;
+    CFPreferencesAppSynchronize(kPrefsAppID);
+    CFArrayRef keyList = CFPreferencesCopyKeyList(kPrefsAppID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+    if (keyList) {
+        settings = (NSDictionary *)CFBridgingRelease(CFPreferencesCopyMultiple(keyList, kPrefsAppID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost));
+        CFRelease(keyList);
+    }
+    enabled = [settings[@"Enabled"] boolValue];
 
 }
 
@@ -85,7 +90,6 @@ static void settingsChanged(CFNotificationCenterRef center, void *observer, CFSt
                                         (CFNotificationCallback)settingsChanged,
                                         CFSTR("dev.ayden.ios.tweak.wintermode.changed"),
                                         NULL,
-                                        CFNotificationSuspensionBehaviorDeliverImmediately);
-		loadSettings();						
+                                        CFNotificationSuspensionBehaviorDeliverImmediately);						
    }
 }
