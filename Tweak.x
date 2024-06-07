@@ -96,3 +96,4 @@ static void settingsChanged(CFNotificationCenterRef center, void *observer, CFSt
                                         CFNotificationSuspensionBehaviorDeliverImmediately);						
    }
 }
+}
