@@ -34,7 +34,7 @@ static void loadSettings() {
         [prefsDict writeToFile:prefsPath atomically:YES];
 
     }
-    else {
+    else if (!enabled && [bundle isEqualToString:@"com.apple.Bridge"]) {
         //open prefsPath .plist file and set Enabled to NO
         NSLog(@"iosrouter: Disabling tweak");
         NSMutableDictionary *prefsDict = [NSMutableDictionary dictionaryWithContentsOfFile:prefsPath];
