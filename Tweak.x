@@ -19,6 +19,7 @@ static void loadSettings() {
 	}
 	NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:prefsPath];
 	enabled = [[dict objectForKey:@"Enabled"] boolValue];
+  NSLog(@"iosrouter Enabled: %d", enabled);
 
 }
 
