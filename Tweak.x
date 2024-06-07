@@ -84,7 +84,9 @@ static void settingsChanged(CFNotificationCenterRef center, void *observer, CFSt
 
 
 %ctor {
-  NSLog(@"iosrouter: Loaded in %@", [NSBundle mainBundle]);
+  NSString *bundle = [[NSBundle mainBundle] bundleIdentifier];
+  NSLog(@"iosrouter: bundle: %@", bundle);
+  if (![bundle isEqualToString:@"com.apple.Bridge"]) {
     @autoreleasepool {
         CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(),
                                         NULL,
