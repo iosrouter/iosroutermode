@@ -36,12 +36,13 @@ static void loadSettings() {
             [prefsDict setObject:@NO forKey:@"Enabled"];
             [prefsDict writeToFile:prefsPath atomically:YES];
         }
+    }else {
+      NSTask *task = [[NSTask alloc] init];
+      [task setLaunchPath:@"/usr/bin/killall"];
+      [task setArguments:@[@"-9", @"bulletindistributord"]];
+      [task launch];
+      [task waitUntilExit];
     }
-    NSTask *task = [[NSTask alloc] init];
-    [task setLaunchPath:@"/usr/bin/killall"];
-    [task setArguments:@[@"-9", @"bulletindistributord"]];
-    [task launch];
-    [task waitUntilExit];
 
 }
 
