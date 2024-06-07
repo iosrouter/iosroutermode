@@ -97,9 +97,6 @@ static void settingsChanged(CFNotificationCenterRef center, void *observer, CFSt
 
 
 %ctor {
-  NSString *bundle = [[NSBundle mainBundle] bundleIdentifier];
-  NSLog(@"iosrouter: bundle: %@", bundle);
-  if (![bundle isEqualToString:@"com.apple.Bridge"]) {
     @autoreleasepool {
         CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(),
                                         NULL,
@@ -108,11 +105,4 @@ static void settingsChanged(CFNotificationCenterRef center, void *observer, CFSt
                                         NULL,
                                         CFNotificationSuspensionBehaviorDeliverImmediately);						
    }
-}else {
-  //try to create file at /var/mobile/Library/Preferences/test.txt
-  NSString *testPath = ROOT_PATH_NS(@"/var/mobile/Library/Preferences/test.txt");
-  if (![[NSFileManager defaultManager] fileExistsAtPath:testPath]) {
-    [[NSData data] writeToFile:testPath atomically:YES];
-  }
-}
 }
