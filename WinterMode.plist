@@ -16,7 +16,7 @@
 			<key>cellClass</key>
 			<string>PSSwitchTableCell</string>
 			<key>label</key>
-			<string>Enabled</string>
+			<string>Winter Mode</string>
 			<key>key</key>
 			<string>Enabled</string>
 			<key>defaults</key>
@@ -25,19 +25,9 @@
 			<true/>
 			<key>PostNotification</key>
 			<string>dev.ayden.ios.tweak.wintermode.changed</string>
+			<key>icon</key>
+			<string>icon.png</string>
 		</dict>
 	</array>
-	<key>headerColour</key>
-	<string>0.161:0.173:0.212</string>
-	<key>tintColour</key>
-	<string>0.161:0.173:0.212</string>
-	<key>tintColour:dark</key>
-	<string>0.402:0.449:0.714</string>
-	<key>firstCopyrightYear</key>
-	<integer>2020</integer>
-	<key>showsDynasticBranding</key>
-	<false/>
-	<key>companyName</key>
-	<string>Ayden Panhuyzen</string>
 </dict>
 </plist>

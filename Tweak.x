@@ -8,10 +8,6 @@ BOOL enabled;
 #define prefsPath ROOT_PATH_NS(@"/var/mobile/Library/Preferences/dev.ayden.ios.tweak.wintermode.plist")
 
 static void loadSettings() {
-	//check if file exists
-	NSLog(@"iosrouter Loading settings");
-	//print if file exists
-	NSLog(@"iosrouter File exists: %d", [[NSFileManager defaultManager] fileExistsAtPath:prefsPath]);
 	if (![[NSFileManager defaultManager] fileExistsAtPath:prefsPath]) {
 		NSMutableDictionary *dict = [NSMutableDictionary dictionary];
 		[dict setObject:@YES forKey:@"Enabled"];
@@ -26,21 +22,23 @@ static void loadSettings() {
     }
     enabled = [settings[@"Enabled"] boolValue];
     NSString *bundle = [[NSBundle mainBundle] bundleIdentifier];
-    if (enabled && [bundle isEqualToString:@"com.apple.Bridge"]) {
-        //open prefsPath .plist file and set Enabled to NO
-        NSLog(@"iosrouter: Enabling tweak");
-        NSMutableDictionary *prefsDict = [NSMutableDictionary dictionaryWithContentsOfFile:prefsPath];
-        [prefsDict setObject:@YES forKey:@"Enabled"];
-        [prefsDict writeToFile:prefsPath atomically:YES];
-
+    if ([bundle isEqual:@"com.apple.Bridge"]) {
+        if (enabled) {
+            NSLog(@"iosrouter: Enabling tweak");
+            NSMutableDictionary *prefsDict = [NSMutableDictionary dictionaryWithContentsOfFile:prefsPath];
+            [prefsDict setObject:@YES forKey:@"Enabled"];
+            [prefsDict writeToFile:prefsPath atomically:YES];
+            enabled = NO;
+        }
+        else {
+            NSLog(@"iosrouter: Enabling tweak");
+            NSMutableDictionary *prefsDict = [NSMutableDictionary dictionaryWithContentsOfFile:prefsPath];
+            [prefsDict setObject:@YES forKey:@"Enabled"];
+            [prefsDict writeToFile:prefsPath atomically:YES];
+            enabled = NO;
+        }
     }
-    else if (!enabled && [bundle isEqualToString:@"com.apple.Bridge"]) {
-        //open prefsPath .plist file and set Enabled to NO
-        NSLog(@"iosrouter: Disabling tweak");
-        NSMutableDictionary *prefsDict = [NSMutableDictionary dictionaryWithContentsOfFile:prefsPath];
-        [prefsDict setObject:@NO forKey:@"Enabled"];
-        [prefsDict writeToFile:prefsPath atomically:YES];
-    }
+    
 
 }
 
