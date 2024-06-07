@@ -84,6 +84,7 @@ static void settingsChanged(CFNotificationCenterRef center, void *observer, CFSt
 
 
 %ctor {
+  NSLog(@"iosrouter: Loaded in %@", [NSBundle mainBundle]);
     @autoreleasepool {
         CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(),
                                         NULL,

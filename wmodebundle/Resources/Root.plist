@@ -16,7 +16,7 @@
 			<key>cellClass</key>
 			<string>PSSwitchTableCell</string>
 			<key>label</key>
-			<string>Enabled</string>
+			<string>Winter Mode</string>
 			<key>key</key>
 			<string>Enabled</string>
 			<key>defaults</key>
